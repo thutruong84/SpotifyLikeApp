@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Cement Lunch",
+    "artist": "Ava Luna",
+    "year": "2010",
+    "genre": "Soul-RnB",
+    "path": "./Cement\ Lunch.wav"      
+  },
+  {
+    "name": "Journey of King",
+    "artist": "Bisou",
+    "year": "2019",
+    "genre": "Electronic",
+    "path": "./Journey\ of\ King.wav" 
+  },
+  {
+    "name": "Tanzen",
+    "artist": "Checkie Brown",
+    "year": "2019",
+    "genre": "Soul-RnB",
+    "path": "./Tanzen.wav" 
+  },
+  {
+    "name": "Wirklich Wichtig",
+    "artist": "Checkie Brown",
+    "year": "2019",
+    "genre": "Soul-RnB",
+    "path": "./Wirklich\ Wichtig.wav" 
+  },
+  {
+    "name": "Vacaciones Salsa",
+    "artist": "Dee Yan-Key",
+    "year": "2018",
+    "genre": "Folk",
+    "path": "./Vacaciones\ Salsa.wav" 
+  },
+  {
+    "name": "El Preso Numero Nueve",
+    "artist": "Kathleen Martin",
+    "year": "2015",
+    "genre": "Folk",
+    "path": "./El\ Preso\ Numero\ Nueve.wav" 
+  },
+  {
+    "name": "Welcome",
+    "artist": "Kitkat Club",
+    "year": "2018",
+    "genre": "Electronic",
+    "path": "./Welcome.wav" 
+  },
+  {
+    "name": "Burn It Down",
+    "artist": "Mid-air Machine",
+    "year": "2019",
+    "genre": "Electronic",
+    "path": "./Burn\ It\ Down.wav" 
+  },
+  {
+    "name": "Storybook",
+    "artist": "Scott Holmes",
+    "year": "2017",
+    "genre": "Pop",
+    "path": "/Storybook.wav" 
+  },
+  {
+    "name": "Zumbido",
+    "artist": "The Dubbstyle",
+    "year": "2019",
+    "genre": "Electronic",
+    "path": "./Zumbido.wav" 
+  }
+]
