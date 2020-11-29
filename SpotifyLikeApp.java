@@ -79,6 +79,7 @@ public class SpotifyLikeApp {
         System.out.println("[H]ome");
         System.out.println("[S]earch by title");
         System.out.println("[L]ibrary");
+        System.out.println("[F]avorites");
         System.out.println("[Q]uit");
 
         System.out.println("");
@@ -133,6 +134,17 @@ public class SpotifyLikeApp {
                 libraryMenu(searchLibrary);
                 break;
 
+            case "f":
+            	System.out.println("---All songs in your favorite song playlist---");
+    			
+    	        for (Map.Entry<String,List<String>> entry : songJSON().entrySet()) {
+    	        	if (entry.getValue().get(4).equals("Y")) {
+    	        		System.out.println(entry.getKey());
+    	        	}
+    	        }
+    			play();
+    			break;
+          
             case "q":
                 System.out.println("-->Quit<--");
                 break;
@@ -188,33 +200,68 @@ public class SpotifyLikeApp {
             System.out.println("--> Genre: " + wantedInfo.get(2));
             System.out.println("--> Relative path: " + wantedInfo.get(3));
             System.out.println("--> isFavorite: " + wantedInfo.get(4));
-            System.out.println(audioClip.getMicrosecondLength());
+            System.out.println("");
+            
             int index = Integer.parseInt(wantedInfo.get(5));
             Scanner scanner = new Scanner(System.in);
     		
     		String response = "";
     			
     		while(!response.equals("Q")) {
-    			System.out.println("P = play, S = Stop, R = Reset, Q = Quit");
+    			System.out.println("---- Menu for this song ----");
+    			System.out.println("[P]ause");
+    			System.out.println("[S]tart playing at where you pause");
+    			System.out.println("[B]egin song again (reset song to the beginning)");
+    			System.out.println("[R]ewind");
+    			System.out.println("[F]oward");
+    			System.out.println("[Q]uit this song and return to main menu");
     			System.out.print("Enter your choice: ");
     			
     			response = scanner.next();
     			response = response.toUpperCase();
     			
     			switch(response) {
-    				case ("P"): audioClip.start();
+    				case ("P"): audioClip.stop();
     				break;
-    				case ("S"): audioClip.stop();
+    				
+    				case ("S"): audioClip.start();
     				break;
-    				case ("R"): audioClip.setMicrosecondPosition(0);
+   
+    				case ("B"): audioClip.setMicrosecondPosition(0);
     				break;
+    				
+    				case ("R"):
+    					Long positionR = audioClip.getMicrosecondPosition();
+    				    System.out.println("--------------------------------------------------");
+    					System.out.println("This song was at " + positionR/1000000 + " seconds before you forward.");
+    					
+    					audioClip.start();
+    					audioClip.setMicrosecondPosition(positionR - 5000000);
+    					
+    					Long currpositionR = audioClip.getMicrosecondPosition();
+    					
+    					System.out.println("This song is now at " + currpositionR/1000000 + " seconds after you forward.");
+    					System.out.println("--------------------------------------------------");
+    					break;
+    					
+    				
     				case ("F"):
-    					Long position = audioClip.getMicrosecondPosition();
-    					System.out.println("Current position is" + position);
-    					audioClip.setMicrosecondPosition(position + 5000000);
-    					System.out.println("Current position is" + position);
-    				case ("Q"): audioClip.close();
-    				isFavorite(index);
+    					Long positionF = audioClip.getMicrosecondPosition();
+    				    System.out.println("--------------------------------------------------");
+    					System.out.println("The song was at " + positionF/1000000 + " seconds befor you forward.");
+    					
+    					audioClip.start();
+    					audioClip.setMicrosecondPosition(positionF + 5000000);
+    					
+    					Long currpositionF = audioClip.getMicrosecondPosition();
+    					
+    					System.out.println("The song is now at " + currpositionF/1000000 + " seconds after you forward.");
+    					System.out.println("--------------------------------------------------");
+    					break;
+    					
+    				case ("Q"): 
+    					audioClip.close();
+    					isFavorite(index);
     				
     				break;
     				default: System.out.println("Not a valid response");
