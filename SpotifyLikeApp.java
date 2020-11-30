@@ -210,11 +210,11 @@ public class SpotifyLikeApp {
     		while(!response.equals("Q")) {
     			System.out.println("---- Menu for this song ----");
     			System.out.println("[P]ause");
-    			System.out.println("[S]tart playing at where you pause");
+    			System.out.println("[S]tart/Resume at where you pause");
     			System.out.println("[B]egin song again (reset song to the beginning)");
-    			System.out.println("[R]ewind");
-    			System.out.println("[F]oward");
-    			System.out.println("[Q]uit this song and return to main menu");
+    			System.out.println("[R]ewind 5 seconds");
+    			System.out.println("[F]oward 5 seconds");
+    			System.out.println("[Q]uit this song, indicate favorite status, and return to main menu");
     			System.out.print("Enter your choice: ");
     			
     			response = scanner.next();
@@ -233,14 +233,14 @@ public class SpotifyLikeApp {
     				case ("R"):
     					Long positionR = audioClip.getMicrosecondPosition();
     				    System.out.println("--------------------------------------------------");
-    					System.out.println("This song was at " + positionR/1000000 + " seconds before you forward.");
+    					System.out.println("This song was at " + positionR/1000000 + " seconds before you rewind.");
     					
     					audioClip.start();
     					audioClip.setMicrosecondPosition(positionR - 5000000);
     					
     					Long currpositionR = audioClip.getMicrosecondPosition();
     					
-    					System.out.println("This song is now at " + currpositionR/1000000 + " seconds after you forward.");
+    					System.out.println("This song is now at " + currpositionR/1000000 + " seconds after you rewind.");
     					System.out.println("--------------------------------------------------");
     					break;
     					
@@ -261,8 +261,24 @@ public class SpotifyLikeApp {
     					
     				case ("Q"): 
     					audioClip.close();
-    					isFavorite(index);
-    				
+    					System.out.println("---------------------------------------------------------------------------------------------");
+    					System.out.println("Before you quit to main menu, please indicate whether this is your favorite song or not.");
+    					
+    					
+    					Scanner intake = new Scanner(System.in);
+    					String indication = "";
+    					
+    					while(!indication.equals("Y") && !indication.equals("N")) {
+    				   	System.out.print("Is this song your favorite? (Y/N)");
+
+    				    indication = intake.nextLine();
+    				    indication = indication.toUpperCase();
+    				    
+    				    isFavorite(index, indication);
+    					}
+    				    
+    					System.out.println("The 'isFavorite' status of this song has been updated. You are now returned to main menu.");
+    					System.out.println("---------------------------------------------------------------------------------------------");
     				break;
     				default: System.out.println("Not a valid response");
     			}
@@ -465,57 +481,28 @@ public class SpotifyLikeApp {
     	}
     }
     
-    public static void isFavorite(Integer index)  {
-   	 Scanner input = new Scanner(System.in);
-   	 
-   	 System.out.print("Is this song your favorite? (Y/N)");
-
-     String response = input.nextLine();
-     response.toUpperCase();
-     
-     switch (response) {
-     	case "Y": 
-     	// reads a json data file
-            
-            JSONParser parser = new JSONParser();
-    		
-            JSONArray songInfoList = null;
-    		
-    		try (FileReader reader = new FileReader("song.json"))
-            {
-                //Read JSON file
-    			 Object obj = parser.parse(reader);
-    			 
-    			 songInfoList = (JSONArray) obj;
-    	         JSONObject wantedSong = new JSONObject();
-    	         wantedSong = (JSONObject) songInfoList.get(index);
-    	         wantedSong.put("isFavorite","Y");
-    	 		
-    	        
-    	         FileOutputStream outputStream = new FileOutputStream("song.json"); 
-    	         byte[] strToBytes = songInfoList.toString().getBytes(); 
-    	         outputStream.write(strToBytes);
-                
-                
-     
-    		}
-    		catch (FileNotFoundException e) { e.printStackTrace(); }
-    		catch(IOException e) { e.printStackTrace(); }
-    		catch(Exception e) { e.printStackTrace(); }
-    		break;
-     	
-     	case "N":
-     		
-     		System.out.println("### This song is now updated as NOT being in your favorite song playlist ###.");
-     		break;
-     		default: System.out.println("Not a valid response");
-    		
-    		
-    		
-     		
-    	 	
+      
+    public static void isFavorite(Integer index, String response)  {
+    	JSONParser parser = new JSONParser();
+       	JSONArray songInfoList = null;
+       	
+       	try (FileReader reader = new FileReader("song.json")){
+            //Read JSON file
+       		Object obj = parser.parse(reader);
+       		songInfoList = (JSONArray) obj;
+       	    JSONObject wantedSong = new JSONObject();
+       	    wantedSong = (JSONObject) songInfoList.get(index);
+       	    wantedSong.put("isFavorite",response);
+       	 	
+       	    FileOutputStream outputStream = new FileOutputStream("song.json"); 
+       	    byte[] strToBytes = songInfoList.toString().getBytes(); 
+       	    outputStream.write(strToBytes);
+        }
+       	catch (FileNotFoundException e) { e.printStackTrace(); }
+       	catch(IOException e) { e.printStackTrace(); }
+       	catch(Exception e) { e.printStackTrace(); }
     }
-    }
+       		
 
 }
 
